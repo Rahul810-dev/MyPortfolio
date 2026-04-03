@@ -1,0 +1,39 @@
+
+
+<nav class="navbar navbar-expand-lg custom-navbar">
+  <div class="container-fluid">
+
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="assets/cropped_circle_image.png" alt="Logo" height="30" class="me-2" />
+      <span class="brand-text">{{ name }}</span>
+    </a>
+
+
+    <button
+      class="navbar-toggler border-0"
+      type="button"
+      (click)="isNavbarCollapsed = !isNavbarCollapsed"
+    >
+      <img src="assets/bars-solid.svg" alt="Menu" height="25" />
+    </button>
+
+    <div class="collapse navbar-collapse" [class.show]="!isNavbarCollapsed">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item" *ngFor="let nav of navLinks">
+          <a
+            class="nav-link"
+            [routerLink]="nav.link"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            {{ nav.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="ms-auto">
+      <a class="elementor-button" (click)="downloadCV()">Download CV</a>
+    </div>
+  </div>
+</nav>

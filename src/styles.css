@@ -1,1 +1,403 @@
-/* You can add global styles to this file, and also import other style files */
+
+ body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: whitesmoke;
+  color: #1a1a33;
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  opacity: 0.5;
+  filter: blur(60px);
+  animation: glowPulse 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  background: rgb(97, 188, 219);
+  bottom: 0;
+  left: 0;
+  transform: translate(-50%, 50%);
+}
+
+body::after {
+  background: rgb(162, 200, 213);
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.2;
+  }
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  background-color: transparent;
+  flex: 1;
+}
+
+h1,h2,h3,h4,h5,p,label,span,li,a{
+  color: rgb(0, 0, 49);
+}
+
+.elementor-button {
+  --button-bg: var(--e-global-color-accent,midnightblue);
+  --button-hover-bg: var(--e-global-color-accentsecondary, rgb(58, 119, 139));
+  --button-color: var(--e-global-color-black, white);
+  --button-padding: 17px 30px;
+  --button-radius: 30px;
+  --button-font: var(--e-global-typography-accent-font-family, 'Montserrat'), sans-serif;
+  --button-font-size: var(--e-global-typography-accent-font-size, 16px);
+  --button-font-weight: var(--e-global-typography-accent-font-weight, 600);
+  --button-line-height: var(--e-global-typography-accent-line-height, 1.2);
+
+  display: inline-block;
+  background: linear-gradient(
+    to right,
+    var(--button-hover-bg) 0%,
+    var(--button-bg) 50%,
+    var(--button-hover-bg) 100%
+  );
+  background-size: 200% auto;
+  color: var(--button-color);
+  border-radius: var(--button-radius);
+  padding: var(--button-padding);
+  font-family: var(--button-font);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  line-height: var(--button-line-height);
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.elementor-button:hover {
+  background-position: right center;
+  color: var(--button-color);
+}
+
+.gradient-text {
+  --button-bg:  rgb(86, 157, 180);
+  --button-hover-bg: midnightblue;
+  --button-color: white;
+
+  display: inline-block;
+  background: linear-gradient(
+    to right,
+    var(--button-hover-bg) 0%,
+    var(--button-bg) 50%,
+    var(--button-hover-bg) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  transition: background-position 0.4s ease-in-out;
+  cursor: pointer;
+}
+
+.gradient-text:hover {
+  background-position: right center;
+}
+
+.dif-span{
+  color: white;
+}
+
+
+/* Hide the default mouse pointer */
+body {
+  cursor: none;
+}
+
+/* Main cursor circle */
+.bodycursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 2px solid rgb(92, 96, 145);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, background-color 0.2s;
+  z-index: 9999;
+}
+
+/* Trail effect dots */
+.trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background-color: rgb(174, 174, 229);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.7;
+  transform: translate(-50%, -50%);
+  animation: fadeTrail 0.6s forwards;
+  z-index: 9998;
+}
+
+/* Animation for fading */
+@keyframes fadeTrail {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+}
+
+
+ .custom-slide-btn {
+   position: relative;
+   overflow: hidden;
+   padding: 12px 28px;
+   border-radius: 30px;
+   border: 1px solid #212529;
+   background: #ffffff;
+   color: #212529;
+   font-weight: 600;
+   text-transform: uppercase;
+   transition: all 0.4s ease;
+   cursor: pointer;
+   z-index: 1;
+ }
+
+ /* Sliding circular background */
+ .custom-slide-btn::before {
+   content: "";
+   position: absolute;
+   inset: 0;
+   background: #000031; /* main hover color */
+   border-radius: 50%;
+   transform: translate(150%, 150%) scale(2.5);
+   transition: transform 0.8s ease;
+   z-index: -1;
+ }
+
+ /* Hover */
+ .custom-slide-btn:hover {
+   color: #ffffff;
+   transform: scale(1.05);
+ }
+
+ .custom-slide-btn:hover::before {
+   transform: translate(0%, 0%) scale(2.5);
+ }
+
+ /* Active click */
+ .custom-slide-btn:active {
+   transform: scale(0.95);
+ }
+
+ .reveal-wrapper {
+   display: inline-block;
+   cursor: default;
+ }
+
+ .reveal-text {
+   position: relative;
+   overflow: hidden;
+   line-height: 1.1;
+   margin: 0;
+ }
+
+ .reveal-line {
+   display: block;
+   position: relative;
+   overflow: hidden;
+ }
+
+ .reveal-top,
+ .reveal-bottom {
+   display: block;
+   transition: transform 0.5s ease;
+ }
+
+ .reveal-bottom {
+   position: absolute;
+   top: 0;
+   left: 0;
+   transform: translateY(100%);
+ }
+
+ /* Hover Animation */
+ .reveal-wrapper:hover .reveal-top {
+   transform: translateY(-100%);
+ }
+
+ .reveal-wrapper:hover .reveal-bottom {
+   transform: translateY(0%);
+ }
+
+ .logo-marquee-container {
+   overflow: hidden;
+   background: #ffffff;
+   position: relative;
+ }
+
+ .logo-marquee {
+   display: flex;
+   width: max-content;
+   animation: scroll 25s linear infinite;
+ }
+
+ .logo-track {
+   display: flex;
+   align-items: center;
+   gap: 60px;
+   padding: 0 40px;
+ }
+
+ .logo-track img {
+   width: 60px;
+   height: 60px;
+   object-fit: contain;
+   transition: transform 0.3s ease;
+   filter: grayscale(100%);
+   opacity: 0.8;
+ }
+
+ .logo-track img:hover {
+   transform: scale(1.2);
+   filter: grayscale(0%);
+   opacity: 1;
+ }
+
+ @keyframes scroll {
+   from {
+     transform: translateX(0);
+   }
+   to {
+     transform: translateX(-50%);
+   }
+ }
+
+
+ .list-inline-item a i {
+   transition: 1.2s ease;
+ }
+
+ .list-inline-item a i:hover {
+   color: #6e5494; /* GitHub purple */
+   transform: scale(1.5);
+ }
+
+
+  .spring-card {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #010138;
+    height: 280px;
+    padding: 30px;
+    transition: transform 0.3s ease;
+  }
+
+ .spring-card:hover {
+   transform: translateY(-6px);
+ }
+
+ .spring-content p {
+   transition: margin-bottom 0.3s ease;
+   color: #010138;
+ }
+
+ .spring-card:hover .spring-content p {
+   margin-bottom: 60px;
+ }
+
+ .spring-btn {
+   position: absolute;
+   bottom: 15px;
+   left: 15px;
+   right: 15px;
+   transform: translateY(100%);
+   opacity: 0;
+   transition: all 0.3s ease;
+   border: 2px solid #010138;
+   background: white;
+   color: #010138;
+ }
+
+ .spring-card:hover .spring-btn {
+   transform: translateY(0);
+   opacity: 1;
+ }
+
+ .circle-text {
+   position: absolute;
+   top: 0;
+   right: 0;
+   transform: translate(50%, -50%) scale(0.75) rotate(0deg);
+   transition: transform 0.6s ease;
+   pointer-events: none;
+ }
+
+ .spring-card:hover .circle-text {
+   transform: translate(50%, -50%) scale(0.75) rotate(180deg);
+ }
+
+ .circle-text text {
+   opacity: 0;
+   transition: opacity 0.3s ease;
+   fill: #010138;
+   font-weight: bold;
+   text-transform: uppercase;
+ }
+
+ .spring-card:hover .circle-text text {
+   opacity: 1;
+ }
+
+
+ .about-wrapper {
+   background-color: #f8f9fa;
+ }
+
+ .about-card {
+   background: #ffffff;
+   border-radius: 12px;
+   transition: transform 0.3s ease;
+ }
+
+ .about-card:hover {
+   transform: translateY(-4px);
+ }
+
+ .section-tag {
+   font-size: 0.85rem;
+   font-weight: 500;
+   letter-spacing: 1px;
+   color: #6c757d;
+ }
