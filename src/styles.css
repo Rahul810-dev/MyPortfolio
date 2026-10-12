@@ -1,16 +1,31 @@
 
- body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  background: whitesmoke;
-  color: #1a1a33;
-  position: relative;
-  z-index: 1;
-  overflow-x: hidden;
-  font-family: 'Segoe UI', sans-serif;
+:root {
+  --ink: #000031;
+  --ink-soft: #1a1a33;
+  --bg: whitesmoke;
+  --surface: #ffffff;
+  --accent: midnightblue;
+  --accent-2: rgb(86, 157, 180);
+  --accent-3: rgb(97, 188, 219);
+  --muted: #6c757d;
+  --radius-pill: 30px;
+  --radius-card: 12px;
+  --font-body: 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Montserrat', sans-serif;
 }
 
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* Soft background glows: static, so they don't cost GPU time */
 body::before,
 body::after {
   content: '';
@@ -18,127 +33,36 @@ body::after {
   width: 240px;
   height: 240px;
   border-radius: 50%;
-  opacity: 0.5;
+  opacity: 0.35;
   filter: blur(60px);
-  animation: glowPulse 3s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
 }
+body::before { background: var(--accent-3); bottom: 0; left: 0; transform: translate(-50%, 50%); }
+body::after  { background: var(--accent-2); top: 0; right: 0; transform: translate(50%, -50%); }
 
-body::before {
-  background: rgb(97, 188, 219);
-  bottom: 0;
-  left: 0;
-  transform: translate(-50%, 50%);
-}
+app-root { display: flex; flex-direction: column; min-height: 100vh; }
+main { background: transparent; flex: 1; }
 
-body::after {
-  background: rgb(162, 200, 213);
-  top: 0;
-  right: 0;
-  transform: translate(50%, -50%);
-}
+h1, h2, h3, h4, h5 { font-family: var(--font-display); color: var(--ink); }
 
-@keyframes glowPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.2;
-  }
-}
-
-app-root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-  background-color: transparent;
-  flex: 1;
-}
-
-h1,h2,h3,h4,h5,p,label,span,li,a{
-  color: rgb(0, 0, 49);
-}
-
-.elementor-button {
-  --button-bg: var(--e-global-color-accent,midnightblue);
-  --button-hover-bg: var(--e-global-color-accentsecondary, rgb(58, 119, 139));
-  --button-color: var(--e-global-color-black, white);
-  --button-padding: 17px 30px;
-  --button-radius: 30px;
-  --button-font: var(--e-global-typography-accent-font-family, 'Montserrat'), sans-serif;
-  --button-font-size: var(--e-global-typography-accent-font-size, 16px);
-  --button-font-weight: var(--e-global-typography-accent-font-weight, 600);
-  --button-line-height: var(--e-global-typography-accent-line-height, 1.2);
-
+.btn-grad {
   display: inline-block;
-  background: linear-gradient(
-    to right,
-    var(--button-hover-bg) 0%,
-    var(--button-bg) 50%,
-    var(--button-hover-bg) 100%
-  );
+  padding: 17px 30px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(to right, var(--accent-2) 0%, var(--accent) 50%, var(--accent-2) 100%);
   background-size: 200% auto;
-  color: var(--button-color);
-  border-radius: var(--button-radius);
-  padding: var(--button-padding);
-  font-family: var(--button-font);
-  font-size: var(--button-font-size);
-  font-weight: var(--button-font-weight);
-  line-height: var(--button-line-height);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
   text-align: center;
   text-decoration: none;
-  transition: all 0.4s ease-in-out;
   cursor: pointer;
-  z-index: 2;
-}
-
-.elementor-button:hover {
-  background-position: right center;
-  color: var(--button-color);
-}
-
-.gradient-text {
-  --button-bg:  rgb(86, 157, 180);
-  --button-hover-bg: midnightblue;
-  --button-color: white;
-
-  display: inline-block;
-  background: linear-gradient(
-    to right,
-    var(--button-hover-bg) 0%,
-    var(--button-bg) 50%,
-    var(--button-hover-bg) 100%
-  );
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
   transition: background-position 0.4s ease-in-out;
-  cursor: pointer;
 }
-
-.gradient-text:hover {
-  background-position: right center;
-}
-
-.dif-span{
-  color: white;
-}
-
-
-/* Hide the default mouse pointer */
-body {
-  cursor: none;
-}
+.btn-grad:hover { background-position: right center; color: #fff; }
 
 /* Main cursor circle */
 .bodycursor {
