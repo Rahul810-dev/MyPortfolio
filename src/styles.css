@@ -1,8 +1,10 @@
-
+/* ============ Design tokens ============ */
 :root {
   --ink: #000031;
   --ink-soft: #1a1a33;
+  --ink-card: #010138;
   --bg: whitesmoke;
+  --bg-alt: #f8f9fa;
   --surface: #ffffff;
   --accent: midnightblue;
   --accent-2: rgb(86, 157, 180);
@@ -14,6 +16,7 @@
   --font-display: 'Montserrat', sans-serif;
 }
 
+/* ============ Base ============ */
 body {
   margin: 0;
   min-height: 100vh;
@@ -25,7 +28,7 @@ body {
   z-index: 1;
 }
 
-/* Soft background glows: static, so they don't cost GPU time */
+/* Soft background glows (static, so they don't cost GPU time) */
 body::before,
 body::after {
   content: '';
@@ -45,7 +48,9 @@ app-root { display: flex; flex-direction: column; min-height: 100vh; }
 main { background: transparent; flex: 1; }
 
 h1, h2, h3, h4, h5 { font-family: var(--font-display); color: var(--ink); }
+a { color: var(--accent); }
 
+/* ============ Buttons and text effects ============ */
 .btn-grad {
   display: inline-block;
   padding: 17px 30px;
@@ -64,14 +69,67 @@ h1, h2, h3, h4, h5 { font-family: var(--font-display); color: var(--ink); }
 }
 .btn-grad:hover { background-position: right center; color: #fff; }
 
-/* Main cursor circle */
+.gradient-text {
+  display: inline-block;
+  background: linear-gradient(to right, var(--accent) 0%, var(--accent-2) 50%, var(--accent) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition: background-position 0.4s ease-in-out;
+  cursor: pointer;
+}
+.gradient-text:hover { background-position: right center; }
+
+.custom-slide-btn {
+  position: relative;
+  overflow: hidden;
+  padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  border: 1px solid #212529;
+  background: var(--surface);
+  color: #212529;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  z-index: 1;
+}
+.custom-slide-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  border-radius: 50%;
+  transform: translate(150%, 150%) scale(2.5);
+  transition: transform 0.8s ease;
+  z-index: -1;
+}
+.custom-slide-btn:hover { color: #fff; transform: scale(1.05); }
+.custom-slide-btn:hover::before { transform: translate(0, 0) scale(2.5); }
+.custom-slide-btn:active { transform: scale(0.95); }
+
+/* Text roll-up reveal */
+.reveal-wrapper { display: inline-block; cursor: default; }
+.reveal-text { position: relative; overflow: hidden; line-height: 1.1; margin: 0; }
+.reveal-line { display: block; position: relative; overflow: hidden; }
+.reveal-top,
+.reveal-bottom { display: block; transition: transform 0.5s ease; }
+.reveal-bottom { position: absolute; top: 0; left: 0; transform: translateY(100%); }
+.reveal-wrapper:hover .reveal-top { transform: translateY(-100%); }
+.reveal-wrapper:hover .reveal-bottom { transform: translateY(0); }
+
+/* ============ Custom cursor (desktop only) ============ */
 .bodycursor {
   position: fixed;
   top: 0;
   left: 0;
   width: 20px;
   height: 20px;
-  background-color: white;
+  background-color: #fff;
   border: 2px solid rgb(92, 96, 145);
   border-radius: 50%;
   pointer-events: none;
@@ -80,7 +138,14 @@ h1, h2, h3, h4, h5 { font-family: var(--font-display); color: var(--ink); }
   z-index: 9999;
 }
 
-/* Trail effect dots */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+}
+@media (hover: none), (pointer: coarse) {
+  .bodycursor,
+  .trail { display: none; }
+}
+
 .trail {
   position: fixed;
   width: 8px;
@@ -93,235 +158,100 @@ h1, h2, h3, h4, h5 { font-family: var(--font-display); color: var(--ink); }
   animation: fadeTrail 0.6s forwards;
   z-index: 9998;
 }
-
-/* Animation for fading */
 @keyframes fadeTrail {
-  to {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.5);
-  }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
 }
 
+/* ============ Logo marquee ============ */
+.logo-marquee-container { overflow: hidden; background: var(--surface); position: relative; }
+.logo-marquee { display: flex; width: max-content; animation: scroll 25s linear infinite; }
+.logo-track { display: flex; align-items: center; gap: 60px; padding: 0 40px; }
+.logo-track img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: grayscale(100%);
+  opacity: 0.8;
+}
+.logo-track img:hover { transform: scale(1.2); filter: grayscale(0); opacity: 1; }
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
 
- .custom-slide-btn {
-   position: relative;
-   overflow: hidden;
-   padding: 12px 28px;
-   border-radius: 30px;
-   border: 1px solid #212529;
-   background: #ffffff;
-   color: #212529;
-   font-weight: 600;
-   text-transform: uppercase;
-   transition: all 0.4s ease;
-   cursor: pointer;
-   z-index: 1;
- }
+/* Social icons */
+.list-inline-item a i { transition: 1.2s ease; }
+.list-inline-item a i:hover { color: #6e5494; transform: scale(1.5); }
 
- /* Sliding circular background */
- .custom-slide-btn::before {
-   content: "";
-   position: absolute;
-   inset: 0;
-   background: #000031; /* main hover color */
-   border-radius: 50%;
-   transform: translate(150%, 150%) scale(2.5);
-   transition: transform 0.8s ease;
-   z-index: -1;
- }
+/* ============ Spring cards (Achievements) ============ */
+.spring-card {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--ink-card);
+  height: 280px;
+  padding: 30px;
+  transition: transform 0.3s ease;
+}
+.spring-card:hover { transform: translateY(-6px); }
 
- /* Hover */
- .custom-slide-btn:hover {
-   color: #ffffff;
-   transform: scale(1.05);
- }
+.spring-content p { transition: margin-bottom 0.3s ease; color: var(--ink-card); }
+.spring-card:hover .spring-content p { margin-bottom: 60px; }
 
- .custom-slide-btn:hover::before {
-   transform: translate(0%, 0%) scale(2.5);
- }
+.spring-btn {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+  border: 2px solid var(--ink-card);
+  background: #fff;
+  color: var(--ink-card);
+}
+.spring-card:hover .spring-btn { transform: translateY(0); opacity: 1; }
 
- /* Active click */
- .custom-slide-btn:active {
-   transform: scale(0.95);
- }
+.circle-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%) scale(0.75) rotate(0deg);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+.spring-card:hover .circle-text { transform: translate(50%, -50%) scale(0.75) rotate(180deg); }
+.circle-text text {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  fill: var(--ink-card);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.spring-card:hover .circle-text text { opacity: 1; }
 
- .reveal-wrapper {
-   display: inline-block;
-   cursor: default;
- }
+/* ============ About cards ============ */
+.about-wrapper { background-color: var(--bg-alt); }
+.about-card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  transition: transform 0.3s ease;
+}
+.about-card:hover { transform: translateY(-4px); }
+.section-tag {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
 
- .reveal-text {
-   position: relative;
-   overflow: hidden;
-   line-height: 1.1;
-   margin: 0;
- }
-
- .reveal-line {
-   display: block;
-   position: relative;
-   overflow: hidden;
- }
-
- .reveal-top,
- .reveal-bottom {
-   display: block;
-   transition: transform 0.5s ease;
- }
-
- .reveal-bottom {
-   position: absolute;
-   top: 0;
-   left: 0;
-   transform: translateY(100%);
- }
-
- /* Hover Animation */
- .reveal-wrapper:hover .reveal-top {
-   transform: translateY(-100%);
- }
-
- .reveal-wrapper:hover .reveal-bottom {
-   transform: translateY(0%);
- }
-
- .logo-marquee-container {
-   overflow: hidden;
-   background: #ffffff;
-   position: relative;
- }
-
- .logo-marquee {
-   display: flex;
-   width: max-content;
-   animation: scroll 25s linear infinite;
- }
-
- .logo-track {
-   display: flex;
-   align-items: center;
-   gap: 60px;
-   padding: 0 40px;
- }
-
- .logo-track img {
-   width: 60px;
-   height: 60px;
-   object-fit: contain;
-   transition: transform 0.3s ease;
-   filter: grayscale(100%);
-   opacity: 0.8;
- }
-
- .logo-track img:hover {
-   transform: scale(1.2);
-   filter: grayscale(0%);
-   opacity: 1;
- }
-
- @keyframes scroll {
-   from {
-     transform: translateX(0);
-   }
-   to {
-     transform: translateX(-50%);
-   }
- }
-
-
- .list-inline-item a i {
-   transition: 1.2s ease;
- }
-
- .list-inline-item a i:hover {
-   color: #6e5494; /* GitHub purple */
-   transform: scale(1.5);
- }
-
-
-  .spring-card {
-    position: relative;
-    overflow: hidden;
-    border: 2px solid #010138;
-    height: 280px;
-    padding: 30px;
-    transition: transform 0.3s ease;
+/* ============ Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee { animation: none; }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
-
- .spring-card:hover {
-   transform: translateY(-6px);
- }
-
- .spring-content p {
-   transition: margin-bottom 0.3s ease;
-   color: #010138;
- }
-
- .spring-card:hover .spring-content p {
-   margin-bottom: 60px;
- }
-
- .spring-btn {
-   position: absolute;
-   bottom: 15px;
-   left: 15px;
-   right: 15px;
-   transform: translateY(100%);
-   opacity: 0;
-   transition: all 0.3s ease;
-   border: 2px solid #010138;
-   background: white;
-   color: #010138;
- }
-
- .spring-card:hover .spring-btn {
-   transform: translateY(0);
-   opacity: 1;
- }
-
- .circle-text {
-   position: absolute;
-   top: 0;
-   right: 0;
-   transform: translate(50%, -50%) scale(0.75) rotate(0deg);
-   transition: transform 0.6s ease;
-   pointer-events: none;
- }
-
- .spring-card:hover .circle-text {
-   transform: translate(50%, -50%) scale(0.75) rotate(180deg);
- }
-
- .circle-text text {
-   opacity: 0;
-   transition: opacity 0.3s ease;
-   fill: #010138;
-   font-weight: bold;
-   text-transform: uppercase;
- }
-
- .spring-card:hover .circle-text text {
-   opacity: 1;
- }
-
-
- .about-wrapper {
-   background-color: #f8f9fa;
- }
-
- .about-card {
-   background: #ffffff;
-   border-radius: 12px;
-   transition: transform 0.3s ease;
- }
-
- .about-card:hover {
-   transform: translateY(-4px);
- }
-
- .section-tag {
-   font-size: 0.85rem;
-   font-weight: 500;
-   letter-spacing: 1px;
-   color: #6c757d;
- }
+}

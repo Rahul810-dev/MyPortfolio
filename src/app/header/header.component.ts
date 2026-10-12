@@ -23,9 +23,8 @@ export class HeaderComponent {
 
   downloadCV(): void {
     const link = document.createElement('a');
-    link.href = 'assets/RahulCV_810.pdf';
-    link.download = 'assets/RahulCV_810.pdf';
-    link.target = '_blank';
+    link.href = 'assets/RESUME_.pdf';
+    link.download = 'RESUME_.pdf';
     link.click();
   }
 }
