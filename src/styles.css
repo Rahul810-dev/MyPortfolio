@@ -1,17 +1,23 @@
-/* ============ Design tokens ============ */
+/* ============ Design tokens (dark) ============ */
 :root {
-  --ink: #000031;
-  --ink-soft: #1a1a33;
-  --ink-card: #010138;
-  --bg: whitesmoke;
-  --bg-alt: #f8f9fa;
-  --surface: #ffffff;
-  --accent: midnightblue;
-  --accent-2: rgb(86, 157, 180);
-  --accent-3: rgb(97, 188, 219);
-  --muted: #6c757d;
+  --bg: #060814;
+  --bg-alt: #0b0e1f;
+  --surface: #0f1329;
+  --surface-2: #161b38;
+  --border: rgba(255, 255, 255, 0.08);
+
+  --text: #d6dcf5;
+  --heading: #ffffff;
+  --muted: #8e97bd;
+
+  --accent: #5b7cff;
+  --accent-2: #3fa7c9;
+  --accent-3: #61bcdb;
+
+  --ink-card: #010138; /* dark text on the pastel achievement cards */
+
   --radius-pill: 30px;
-  --radius-card: 12px;
+  --radius-card: 14px;
   --font-body: 'Segoe UI', system-ui, sans-serif;
   --font-display: 'Montserrat', sans-serif;
 }
@@ -21,34 +27,34 @@ body {
   margin: 0;
   min-height: 100vh;
   background: var(--bg);
-  color: var(--ink-soft);
+  color: var(--text);
   font-family: var(--font-body);
   overflow-x: hidden;
   position: relative;
   z-index: 1;
 }
 
-/* Soft background glows (static, so they don't cost GPU time) */
+/* Static background glows (no animation = no GPU cost) */
 body::before,
 body::after {
   content: '';
   position: fixed;
-  width: 240px;
-  height: 240px;
+  width: 360px;
+  height: 360px;
   border-radius: 50%;
-  opacity: 0.35;
-  filter: blur(60px);
+  opacity: 0.25;
+  filter: blur(90px);
   pointer-events: none;
   z-index: 0;
 }
 body::before { background: var(--accent-3); bottom: 0; left: 0; transform: translate(-50%, 50%); }
-body::after  { background: var(--accent-2); top: 0; right: 0; transform: translate(50%, -50%); }
+body::after  { background: var(--accent);   top: 0; right: 0; transform: translate(50%, -50%); }
 
 app-root { display: flex; flex-direction: column; min-height: 100vh; }
 main { background: transparent; flex: 1; }
 
-h1, h2, h3, h4, h5 { font-family: var(--font-display); color: var(--ink); }
-a { color: var(--accent); }
+h1, h2, h3, h4, h5 { font-family: var(--font-display); color: var(--heading); }
+a { color: var(--accent-3); }
 
 /* ============ Buttons and text effects ============ */
 .btn-grad {
@@ -65,13 +71,17 @@ a { color: var(--accent); }
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: background-position 0.4s ease-in-out;
+  transition: background-position 0.4s ease-in-out, box-shadow 0.3s ease;
 }
-.btn-grad:hover { background-position: right center; color: #fff; }
+.btn-grad:hover {
+  background-position: right center;
+  color: #fff;
+  box-shadow: 0 0 24px rgba(97, 188, 219, 0.45);
+}
 
 .gradient-text {
   display: inline-block;
-  background: linear-gradient(to right, var(--accent) 0%, var(--accent-2) 50%, var(--accent) 100%);
+  background: linear-gradient(to right, var(--accent-3) 0%, var(--accent) 50%, var(--accent-3) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -89,9 +99,9 @@ a { color: var(--accent); }
   overflow: hidden;
   padding: 12px 28px;
   border-radius: var(--radius-pill);
-  border: 1px solid #212529;
-  background: var(--surface);
-  color: #212529;
+  border: 1px solid var(--accent-3);
+  background: transparent;
+  color: var(--text);
   font-weight: 600;
   text-transform: uppercase;
   transition: all 0.4s ease;
@@ -102,13 +112,13 @@ a { color: var(--accent); }
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--ink);
+  background: var(--accent-3);
   border-radius: 50%;
   transform: translate(150%, 150%) scale(2.5);
   transition: transform 0.8s ease;
   z-index: -1;
 }
-.custom-slide-btn:hover { color: #fff; transform: scale(1.05); }
+.custom-slide-btn:hover { color: var(--bg); transform: scale(1.05); }
 .custom-slide-btn:hover::before { transform: translate(0, 0) scale(2.5); }
 .custom-slide-btn:active { transform: scale(0.95); }
 
@@ -129,8 +139,8 @@ a { color: var(--accent); }
   left: 0;
   width: 20px;
   height: 20px;
-  background-color: #fff;
-  border: 2px solid rgb(92, 96, 145);
+  background-color: rgba(97, 188, 219, 0.2);
+  border: 2px solid var(--accent-3);
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
@@ -150,7 +160,7 @@ a { color: var(--accent); }
   position: fixed;
   width: 8px;
   height: 8px;
-  background-color: rgb(174, 174, 229);
+  background-color: var(--accent);
   border-radius: 50%;
   pointer-events: none;
   opacity: 0.7;
@@ -163,7 +173,13 @@ a { color: var(--accent); }
 }
 
 /* ============ Logo marquee ============ */
-.logo-marquee-container { overflow: hidden; background: var(--surface); position: relative; }
+/* Light strip on purpose: some logos (Express, Node) are black and vanish on dark */
+.logo-marquee-container {
+  overflow: hidden;
+  background: #e9edff;
+  border-radius: var(--radius-card);
+  position: relative;
+}
 .logo-marquee { display: flex; width: max-content; animation: scroll 25s linear infinite; }
 .logo-track { display: flex; align-items: center; gap: 60px; padding: 0 40px; }
 .logo-track img {
@@ -182,18 +198,22 @@ a { color: var(--accent); }
 
 /* Social icons */
 .list-inline-item a i { transition: 1.2s ease; }
-.list-inline-item a i:hover { color: #6e5494; transform: scale(1.5); }
+.list-inline-item a i:hover { color: var(--accent-3); transform: scale(1.5); }
 
 /* ============ Spring cards (Achievements) ============ */
 .spring-card {
   position: relative;
   overflow: hidden;
   border: 2px solid var(--ink-card);
+  border-radius: var(--radius-card);
   height: 280px;
   padding: 30px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.spring-card:hover { transform: translateY(-6px); }
+.spring-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(97, 188, 219, 0.25);
+}
 
 .spring-content p { transition: margin-bottom 0.3s ease; color: var(--ink-card); }
 .spring-card:hover .spring-content p { margin-bottom: 60px; }
@@ -234,15 +254,16 @@ a { color: var(--accent); }
 .about-wrapper { background-color: var(--bg-alt); }
 .about-card {
   background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius-card);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
-.about-card:hover { transform: translateY(-4px); }
+.about-card:hover { transform: translateY(-4px); border-color: var(--accent-3); }
 .section-tag {
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 1px;
-  color: var(--muted);
+  color: var(--accent-3);
 }
 
 /* ============ Reduced motion ============ */
