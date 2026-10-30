@@ -1,0 +1,47 @@
+<section class="hero" #root>
+  <div class="hero-bg" aria-hidden="true">
+    <video
+      #vid
+      class="hero-video"
+      [class.ready]="videoReady"
+      (loadeddata)="videoReady = true"
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="assets/hero/hero-poster.jpg"
+    >
+      <source src="assets/hero/hero.webm" type="video/webm" />
+      <source src="assets/hero/hero.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-shade"></div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-kicker">Rahul N &middot; Full-stack developer</p>
+
+    <h1 class="hero-title">
+      <span class="line"><span class="line-inner">I build fast APIs</span></span>
+      <span class="line"
+      ><span class="line-inner">and <span class="gradient-text">polished interfaces.</span></span></span
+      >
+    </h1>
+
+    <p class="hero-sub">
+      Final-year CSE student. FastAPI, Express and PostgreSQL on the back end, React and Angular on the
+      front. IEEE-published.
+    </p>
+
+    <div class="hero-actions">
+      <a routerLink="/projects" class="btn-grad">View projects</a>
+      <a
+        href="assets/RahulCV_810.pdf"
+        download="Rahul_N_Resume.pdf"
+        class="custom-slide-btn d-inline-block text-decoration-none"
+      >Download CV</a
+      >
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true"><span>Scroll</span></div>
+</section>

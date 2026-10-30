@@ -143,17 +143,20 @@ a { color: var(--accent-3); }
   border: 2px solid var(--accent-3);
   border-radius: 50%;
   pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: transform 0.15s ease-out, background-color 0.2s;
+  will-change: transform;
   z-index: 9999;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  body { cursor: none; }
+  body,
+  a,
+  button,
+  .btn-grad,
+  .custom-slide-btn,
+  .gradient-text { cursor: none; }
 }
 @media (hover: none), (pointer: coarse) {
-  .bodycursor,
-  .trail { display: none; }
+  .bodycursor { display: none; }
 }
 
 .trail {
@@ -276,3 +279,9 @@ a { color: var(--accent-3); }
     animation-duration: 0.01ms !important;
   }
 }
+
+
+/* ============ Lenis smooth scroll ============ */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }

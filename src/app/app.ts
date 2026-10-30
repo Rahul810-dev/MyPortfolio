@@ -1,61 +1,68 @@
-
-import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { FormComponent } from './form/form.component';
+import { SmoothScrollService } from './core/smooth-scroll.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    HeaderComponent,
-    FooterComponent,
-    FormComponent
-  ],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private cursorEl!: HTMLElement;
-  private mouseMoveListener!: () => void;
+  private cursorEl: HTMLElement | null = null;
+  private targetX = -100;
+  private targetY = -100;
+  private currentX = -100;
+  private currentY = -100;
+  private targetScale = 1;
+  private currentScale = 1;
+  private rafId = 0;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private zone: NgZone, private smooth: SmoothScrollService) {}
+
+  private onMove = (e: MouseEvent): void => {
+    this.targetX = e.clientX;
+    this.targetY = e.clientY;
+  };
+
+  private onOver = (e: MouseEvent): void => {
+    const el = e.target as HTMLElement | null;
+    this.targetScale = el?.closest('a, button, .custom-slide-btn, .btn-grad') ? 2.2 : 1;
+  };
+
+  private animate = (): void => {
+    this.currentX += (this.targetX - this.currentX) * 0.18;
+    this.currentY += (this.targetY - this.currentY) * 0.18;
+    this.currentScale += (this.targetScale - this.currentScale) * 0.15;
+
+    if (this.cursorEl) {
+      this.cursorEl.style.transform =
+        `translate3d(${this.currentX}px, ${this.currentY}px, 0) ` +
+        `translate(-50%, -50%) scale(${this.currentScale})`;
+    }
+    this.rafId = requestAnimationFrame(this.animate);
+  };
 
   ngOnInit(): void {
-    // Find the custom cursor element
-    this.cursorEl = document.getElementById('cursor') as HTMLElement;
+    this.smooth.init(); // smooth scroll, runs on all devices
 
-    // Listen to mouse move
-    this.mouseMoveListener = this.renderer.listen('document', 'mousemove', (event: MouseEvent) => {
-      // Move main cursor
-      if (this.cursorEl) {
-        this.cursorEl.style.left = `${event.clientX}px`;
-        this.cursorEl.style.top = `${event.clientY}px`;
-      }
+    this.cursorEl = document.getElementById('cursor');
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!this.cursorEl || !finePointer) return;
 
-      // Create trailing dot
-      const trail = this.renderer.createElement('div');
-      this.renderer.addClass(trail, 'trail');
-      this.renderer.setStyle(trail, 'left', `${event.clientX}px`);
-      this.renderer.setStyle(trail, 'top', `${event.clientY + 20}px`);
-      document.body.appendChild(trail);
-
-      // Remove after animation
-      setTimeout(() => {
-        if (trail && trail.parentNode) {
-          trail.remove();
-        }
-      }, 600);
+    this.zone.runOutsideAngular(() => {
+      document.addEventListener('mousemove', this.onMove);
+      document.addEventListener('mouseover', this.onOver);
+      this.animate();
     });
   }
 
   ngOnDestroy(): void {
-    // Clean up listener
-    if (this.mouseMoveListener) {
-      this.mouseMoveListener();
-    }
+    document.removeEventListener('mousemove', this.onMove);
+    document.removeEventListener('mouseover', this.onOver);
+    cancelAnimationFrame(this.rafId);
   }
 }
-

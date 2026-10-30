@@ -1,0 +1,19 @@
+<section class="story" #root aria-label="About me, in scenes">
+  <div class="story-pin">
+    <div class="story-copy">
+      @for (s of scenes; track s.title; let i = $index) {
+        <div class="story-step">
+          <span class="story-num">0{{ i + 1 }} / 0{{ scenes.length }}</span>
+          <h2 class="story-title">{{ s.title }}</h2>
+          <p class="story-text">{{ s.text }}</p>
+        </div>
+      }
+    </div>
+
+    <div class="story-stage">
+      @for (s of scenes; track s.img) {
+        <img class="story-img" [src]="s.img" [alt]="s.alt" />
+      }
+    </div>
+  </div>
+</section>
