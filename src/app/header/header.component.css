@@ -6,9 +6,7 @@
 }
 
 .custom-navbar {
-  background: rgba(6, 8, 20, 0.7);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(6, 8, 20, 0.92);
   border-bottom: 1px solid var(--border);
   padding: 1rem 2rem;
 }

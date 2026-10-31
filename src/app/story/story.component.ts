@@ -47,9 +47,9 @@ export class StoryComponent implements AfterViewInit, OnDestroy {
             trigger: '.story-pin',
             start: 'top top',
             end: () => `+=${window.innerHeight * (n - 1) * 0.9}`,
-            scrub: 0.6,
+            scrub: true, // Lenis already smooths the scroll, so no extra scrub lag
             pin: true,
-            anticipatePin: 1,
+            invalidateOnRefresh: true,
           },
         });
 
@@ -60,8 +60,12 @@ export class StoryComponent implements AfterViewInit, OnDestroy {
             .to(steps[i - 1], { autoAlpha: 0, y: -40, duration: 0.4 }, t + 0.5)
             .fromTo(steps[i], { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.5 }, t + 0.8);
         }
-        tl.to({}, { duration: 0.6 }); // hold on the last scene
+        tl.to({}, { duration: 0.6 });
       }, this.root.nativeElement);
+
+      // Re-measure once the images are decoded so the pin doesn't jump
+      const pics = Array.from(this.root.nativeElement.querySelectorAll('img'));
+      Promise.all(pics.map((p) => p.decode().catch(() => {}))).then(() => ScrollTrigger.refresh());
     });
   }
 

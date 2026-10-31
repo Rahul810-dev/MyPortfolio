@@ -1,31 +1,39 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NgFor } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { SmoothScrollService } from '../core/smooth-scroll.service';
+
+interface NavItem { label: string; id?: string; link?: string; }
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, NgFor],
+  imports: [RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  name = "{ Rahul N }";
+  name = '{ Rahul N }';
   isNavbarCollapsed = true;
 
-  navLinks = [
-    { label: 'Home', link: '/' },
-    { label: 'About Me', link: '/about' },
-    { label: 'Education', link: '/education' },
-    { label: 'Achievements', link: '/projects' },
-    { label: 'Contact', link: '/contact' },
+  navLinks: NavItem[] = [
+    { label: 'Home', id: 'home' },
+    { label: 'About', id: 'about' },
+    { label: 'Journey', id: 'journey' },
+    { label: 'Achievements', id: 'achievements' },
+    { label: 'Projects', link: '/projects' },
+    { label: 'Contact', id: 'contact' },
   ];
 
-  downloadCV(): void {
-    const link = document.createElement('a');
-    link.href = 'assets/RESUME_.pdf';
-    link.download = 'RESUME_.pdf';
-    link.click();
+  constructor(private router: Router, private smooth: SmoothScrollService) {}
+
+  go(id: string): void {
+    this.isNavbarCollapsed = true;
+    const onHome = this.router.url.split(/[?#]/)[0] === '/';
+    if (onHome) {
+      this.smooth.scrollTo('#' + id);
+      return;
+    }
+    // From another page: go home first, then scroll
+    this.router.navigateByUrl('/').then(() => setTimeout(() => this.smooth.scrollTo('#' + id), 200));
   }
 }
-

@@ -1,39 +1,31 @@
-
-
 <nav class="navbar navbar-expand-lg custom-navbar">
   <div class="container-fluid">
-
-    <a class="navbar-brand d-flex align-items-center" href="#">
+    <a class="navbar-brand d-flex align-items-center" href="#" (click)="$event.preventDefault(); go('home')">
       <img src="assets/cropped_circle_image.png" alt="Logo" height="30" class="me-2" />
       <span class="brand-text">{{ name }}</span>
     </a>
 
-
-    <button
-      class="navbar-toggler border-0"
-      type="button"
-      (click)="isNavbarCollapsed = !isNavbarCollapsed"
-    >
-      <img src="assets/bars-solid.svg" alt="Menu" height="25" />
+    <button class="navbar-toggler border-0" type="button" aria-label="Toggle menu"
+            (click)="isNavbarCollapsed = !isNavbarCollapsed">
+      <img src="assets/bars-solid.svg" alt="" height="25" />
     </button>
 
     <div class="collapse navbar-collapse" [class.show]="!isNavbarCollapsed">
       <ul class="navbar-nav mx-auto">
-        <li class="nav-item" *ngFor="let nav of navLinks">
-          <a
-            class="nav-link"
-            [routerLink]="nav.link"
-            routerLinkActive="active-link"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            {{ nav.label }}
-          </a>
-        </li>
+        @for (item of navLinks; track item.label) {
+          <li class="nav-item">
+            @if (item.id) {
+              <a class="nav-link" href="#" (click)="$event.preventDefault(); go(item.id)">{{ item.label }}</a>
+            } @else {
+              <a class="nav-link" [routerLink]="item.link" routerLinkActive="active-link">{{ item.label }}</a>
+            }
+          </li>
+        }
       </ul>
     </div>
 
     <div class="ms-auto">
-      <a class="btn-grad" (click)="downloadCV()">Download CV</a>
+      <a class="btn-grad" href="assets/RahulCV_810.pdf" download="Rahul_N_Resume.pdf">Download CV</a>
     </div>
   </div>
 </nav>

@@ -23,6 +23,15 @@ export class SmoothScrollService implements OnDestroy {
       gsap.ticker.lagSmoothing(0);
     });
   }
+  scrollTo(target: string | number, offset = -100): void {
+    if (this.lenis) {
+      this.lenis.scrollTo(target, { offset, duration: 1.4 });
+    } else if (typeof target === 'string') {
+      document.querySelector(target)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: target, behavior: 'smooth' });
+    }
+  }
 
   ngOnDestroy(): void {
     gsap.ticker.remove(this.tick);

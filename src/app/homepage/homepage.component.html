@@ -1,78 +1,65 @@
-<app-hero></app-hero>
-<app-story></app-story>
+<div id="home"><app-hero></app-hero></div>
+<div id="about"><app-story></app-story></div>
 
-<!-- HERO -->
-<section class="hero full-bleed">
-  @if (heroVideo) {
-    <video
-      class="hero-video"
-      [src]="heroVideo"
-      [muted]="true"
-      autoplay
-      loop
-      playsinline
-      preload="metadata"
-      aria-hidden="true"
-    ></video>
-  }
-
-  <div class="hero-inner">
-    <p class="hero-eyebrow hero-reveal">Hello, I'm</p>
-    <h1 class="hero-name hero-reveal"><span class="gradient-text">Rahul N</span></h1>
-    <p class="hero-role hero-reveal">
-      Full-stack developer who builds fast APIs and polished interfaces.
-    </p>
-    <p class="hero-sub hero-reveal">
-      Final-year CSE student · FastAPI · Express · PostgreSQL · React · IEEE-published
-    </p>
-    <div class="hero-actions hero-reveal">
-      <a class="btn-grad" routerLink="/projects">View my work</a>
-      <a class="btn-ghost" href="assets/RahulCV_810.pdf" download="Rahul_N_Resume.pdf">
-        Download CV
-      </a>
-    </div>
-  </div>
-
-  <div class="scroll-hint" aria-hidden="true"><span></span></div>
-</section>
-
-<!-- SKILLS STRIP -->
-<section class="skills">
-  <div class="logo-marquee-container py-4">
-    <div class="logo-marquee">
-      @for (copy of [0, 1]; track copy) {
-        <div class="logo-track" [attr.aria-hidden]="copy === 1">
-          @for (logo of logos; track logo.name) {
-            <img [src]="logo.url" [alt]="copy === 0 ? logo.name : ''" />
-          }
-        </div>
-      }
-    </div>
+<section class="section" id="skills">
+  <p class="eyebrow" appReveal>Skills</p>
+  <h2 class="section-title" appReveal="80">The stack I build with.</h2>
+  <div class="skill-grid">
+    @for (g of skills; track g.title; let i = $index) {
+      <div [appReveal]="i * 90">
+        <article class="skill-card">
+          <h3>{{ g.title }}</h3>
+          <div class="chips">
+            @for (s of g.items; track s) { <span class="chip">{{ s }}</span> }
+          </div>
+        </article>
+      </div>
+    }
   </div>
 </section>
 
-<!-- SCROLL STORY -->
-<section class="story full-bleed" aria-label="About me in five scenes">
-  <div class="story-stage">
-    <div class="story-text">
-      @for (s of scenes; track s.title; let i = $index) {
-        <div class="story-caption">
-          <span class="story-count">0{{ i + 1 }} / 0{{ scenes.length }}</span>
-          <h2 class="story-title">{{ s.title }}</h2>
-          <p class="story-copy">{{ s.copy }}</p>
-          @if (i === scenes.length - 1) {
-            <a class="btn-grad mt-3" routerLink="/contact">Get in touch</a>
-          }
-        </div>
-      }
-    </div>
+<section class="section" id="journey">
+  <p class="eyebrow" appReveal>Journey</p>
+  <h2 class="section-title" appReveal="80">Experience and education.</h2>
+  <div class="timeline">
+    @for (j of journey; track j.role) {
+      <div class="tl-item" appReveal>
+        <span class="tl-date">{{ j.date }}</span>
+        <h3 class="tl-role">{{ j.role }}</h3>
+        <p class="tl-org">{{ j.org }}</p>
+        @if (j.text) { <p class="tl-text">{{ j.text }}</p> }
+      </div>
+    }
+  </div>
+</section>
 
-    <div class="story-frame">
-      @for (s of scenes; track s.src) {
-        <img [src]="s.src" [alt]="s.alt" decoding="async" />
-      }
-    </div>
+<section class="section" id="achievements">
+  <p class="eyebrow" appReveal>Achievements</p>
+  <h2 class="section-title" appReveal="80">Recognition and publications.</h2>
+  <div class="hl-grid">
+    @for (h of highlights; track h.title; let i = $index) {
+      <div [appReveal]="i * 90">
+        <article class="hl-card">
+          <span class="hl-tag">{{ h.tag }}</span>
+          <h3>{{ h.title }}</h3>
+          <p>{{ h.text }}</p>
+        </article>
+      </div>
+    }
+  </div>
+  <a routerLink="/projects" class="btn-grad more-link" appReveal>See my projects</a>
+</section>
 
-    <div class="story-bar" aria-hidden="true"><span class="story-bar-fill"></span></div>
+<section class="section contact" id="contact">
+  <p class="eyebrow" appReveal>Contact</p>
+  <h2 class="section-title" appReveal="80">Let’s build something <span class="gradient-text">together.</span></h2>
+  <p class="contact-sub" appReveal="140">Open to internships and full-time roles. Email is the fastest way to reach me.</p>
+  <div class="contact-actions" appReveal="200">
+    <a class="btn-grad" [href]="'mailto:' + email">Email me</a>
+    <a class="custom-slide-btn d-inline-block text-decoration-none" href="assets/RahulCV_810.pdf" download="Rahul_N_Resume.pdf">Download CV</a>
+  </div>
+  <div class="contact-links" appReveal="260">
+    <a [href]="github" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github fa-2x"></i></a>
+    <a [href]="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin fa-2x"></i></a>
   </div>
 </section>
