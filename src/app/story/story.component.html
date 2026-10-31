@@ -10,7 +10,7 @@
       }
     </div>
 
-    <div class="story-stage">
+    <div class="story-stage" appTilt="4" [tiltGlare]="false">
       @for (s of scenes; track s.img) {
         <img class="story-img" [src]="s.img" [alt]="s.alt" />
       }

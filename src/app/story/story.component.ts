@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { TiltDirective } from '../core/tilt.directive';
 
 @Component({
   selector: 'app-story',
   standalone: true,
+  imports: [TiltDirective],
   templateUrl: './story.component.html',
   styleUrl: './story.component.css',
 })

@@ -7,7 +7,7 @@
   <div class="skill-grid">
     @for (g of skills; track g.title; let i = $index) {
       <div [appReveal]="i * 90">
-        <article class="skill-card">
+        <article class="skill-card" appTilt>
           <h3>{{ g.title }}</h3>
           <div class="chips">
             @for (s of g.items; track s) { <span class="chip">{{ s }}</span> }
@@ -39,7 +39,7 @@
   <div class="hl-grid">
     @for (h of highlights; track h.title; let i = $index) {
       <div [appReveal]="i * 90">
-        <article class="hl-card">
+        <article class="hl-card" appTilt>
           <span class="hl-tag">{{ h.tag }}</span>
           <h3>{{ h.title }}</h3>
           <p>{{ h.text }}</p>

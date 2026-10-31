@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { SmoothScrollService } from '../core/smooth-scroll.service';
+import { MagneticDirective } from '../core/magnetic.directive';
 
 interface NavItem { label: string; id?: string; link?: string; }
 

@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 import { HeroComponent } from '../hero/hero.component';
 import { StoryComponent } from '../story/story.component';
 import { RevealDirective } from '../core/reveal.directive';
+import { TiltDirective } from '../core/tilt.directive';
+import { MagneticDirective } from '../core/magnetic.directive';
 
 @Component({
   selector: 'app-homepage',

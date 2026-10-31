@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { gsap } from 'gsap';
+import { MagneticDirective } from '../core/magnetic.directive';
 
 @Component({
   selector: 'app-hero',
